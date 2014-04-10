@@ -1,0 +1,70 @@
+﻿<Window x:Class="ComputeSuger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="发酵蔗糖计算" Height="350" Width="525" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Icon="/ComputeSuger;component/无命名-img2ico.net.ico" ResizeMode="NoResize" Background="DimGray">
+
+
+    <Window.Resources>
+        <XmlDataProvider x:Key="TempVolumn" Source="/TempVolumn.xml"/>
+        <XmlDataProvider x:Key="TasteVolumn" Source="/TasteVolumn.xml"/>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="189*" />
+            <ColumnDefinition Width="187*" />
+            <ColumnDefinition Width="127*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="78*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="39*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="升数" Height="28" HorizontalAlignment="Right" Margin="0,2,11,2" VerticalAlignment="Stretch" Grid.Row="2" Foreground="Cornsilk" FontSize="15" />
+        <TextBox Height="Auto" HorizontalAlignment="Stretch" Margin="0,5" Name="textBox1" VerticalAlignment="Stretch" Width="Auto" Grid.Row="2" Grid.ColumnSpan="1" Grid.Column="1" />
+        <Label Content="二氧化碳体积" Height="28" HorizontalAlignment="Right" Margin="0,2,11,2" VerticalAlignment="Center" Grid.Row="3" Foreground="Cornsilk" FontSize="15" />
+        <Button Content="计算" Grid.Column="1" Grid.Row="8"  Height="23" HorizontalAlignment="Center"
+                Margin="0" Name="button1" VerticalAlignment="Stretch" Click="button1_Click" Width="120" />
+        <Label Grid.Row="7" Height="28" HorizontalAlignment="Stretch" 
+               Margin="0,5" Name="label1" VerticalAlignment="Center" Padding="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Cornsilk" FontSize="15" Grid.ColumnSpan="1" Grid.Column="1" />
+        <ComboBox Grid.Column="2" Grid.Row="6" Height="23" HorizontalAlignment="Center" Margin="7,4,59,4" 
+                  Name="comboBox1" VerticalAlignment="Center" Width="61" Padding="1" 
+                   ItemsSource="{Binding Source={StaticResource TempVolumn},XPath=/TempVolumn/Item}"
+                  DisplayMemberPath="Temp" SelectedValuePath="Volumn" SelectionChanged="comboBox1_SelectionChanged" />
+        <TextBox Height="Auto" HorizontalAlignment="Stretch" Margin="0,5" Name="textBox2"
+                 VerticalAlignment="Stretch" Grid.Row="6" 
+                 DataContext="{Binding ElementName=comboBox1}" Text="{Binding Path=SelectedValue}" Grid.ColumnSpan="1" Grid.Column="1" />
+        <ComboBox Grid.Row="4" Height="23" HorizontalAlignment="Stretch" Margin="0,5" 
+                  Name="comboBox2" VerticalAlignment="Stretch" Width="Auto" 
+                  ItemsSource="{Binding Source={StaticResource TasteVolumn},XPath=/TasteVolumn/Item}"
+                  DisplayMemberPath="Name" SelectedValuePath="Value" Padding="1" SelectionChanged="comboBox2_SelectionChanged" Tag="{Binding Path=Volumn}" Grid.ColumnSpan="1" Grid.Column="1" />
+        <!--SelectedValuePath="@Volumn"-->
+        <Grid Grid.Row="5" DataContext="{Binding ElementName=comboBox2, Path=SelectedItem}" Grid.ColumnSpan="2" >
+            <Grid.RowDefinitions>
+               
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="189*"></ColumnDefinition>
+                <ColumnDefinition Width="187*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="{Binding XPath=Volumn}" ContentStringFormat="目标体积为{0}取中值" Height="Auto" 
+                   HorizontalAlignment="Stretch" Name="label2" VerticalAlignment="Stretch" Foreground="Cornsilk" 
+                   FontSize="15" />
+            <TextBox HorizontalAlignment="Stretch" Margin="0,5" 
+                     Name="textBox3" VerticalAlignment="Stretch" Text="{Binding XPath=Value}" Grid.ColumnSpan="1" Grid.Column="1" />
+        </Grid>
+        <TextBox Grid.Row="3" Height="Auto" HorizontalAlignment="Stretch" Margin="0,5" Name="textBox4" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" Grid.Column="1" />
+        <Label Content="减去  当前温度下已有体积" Grid.Row="6" Height="28" HorizontalAlignment="Right" Margin="0" Name="label4" VerticalAlignment="Stretch" FontSize="15" Foreground="Cornsilk" />
+        <Label Content="℃" Grid.Column="2" Grid.Row="6" Height="28" HorizontalAlignment="Left" Margin="75,5,0,0" Name="label5" VerticalAlignment="Top" Grid.RowSpan="2" />
+        <Label Content="共需用糖" Height="28" HorizontalAlignment="Right" Margin="0,2,11,2" Name="label6" VerticalAlignment="Stretch" Grid.Row="7" FontSize="15" Foreground="Cornsilk" />
+        <Label Content="发酵蔗糖投放量计算器" Height="Auto" HorizontalAlignment="Stretch" Margin="0,5" Name="label7" VerticalAlignment="Stretch" Grid.ColumnSpan="3" HorizontalContentAlignment="Center" FontSize="24" VerticalContentAlignment="Center" FontFamily="Microsoft Yi Baiti" Foreground="Cornsilk" />
+        <Label Content="口味" FontSize="15" Foreground="Cornsilk" Height="28" HorizontalAlignment="Right" Margin="0,2,11,2" VerticalAlignment="Center" Grid.Row="4" />
+    </Grid>
+</Window>
